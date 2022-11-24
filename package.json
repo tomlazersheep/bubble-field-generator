@@ -1,0 +1,23 @@
+{
+  "name": "bubble-field-generator",
+  "version": "1.0.0",
+  "description": "generate many fields at once with a list of fields and an existing params.json",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomlazersheep/bubble-field-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomlazersheep/bubble-field-generator/issues"
+  },
+  "homepage": "https://github.com/tomlazersheep/bubble-field-generator#readme",
+  "dependencies": {
+    "csv-parse": "^5.3.2",
+    "csv-parser": "^3.0.0"
+  }
+}
