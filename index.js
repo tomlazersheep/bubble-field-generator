@@ -71,41 +71,47 @@ for (i = 0; i < letters.length; i++) {
   }
 }
 
+
+let row_number = 40;
 fs.createReadStream("./data.csv")
-  .pipe(
-    parse({
-      delimiter: ",",
-      columns: true,
-      ltrim: true,
-    })
-  )
-  .on("data", function (row) {
-    // 👇 push the object row into the array
-    new_fields.push(row);
+.pipe(
+  parse({
+    delimiter: ",",
+    columns: false,
+    trim: true,
   })
-  .on("error", function (error) {
-    console.log(error.message);
-  })
-  .on("end", function () {
-    // 👇 log the result array
+)
+.on("data", function (row) {
+  // 👇 push the object row into the array
 
-    //get params.json
+  new_fields.push({
+    property_name: row[0],
+    description: row[1],
+    index: row_number,
+    lettercode: lettercodes.get(row_number)
 
-    try {
-      const params = fs.readFileSync("params.json", "utf8");
-      const params_obj = JSON.parse(params);
-    } catch (err) {
-      console.error(err);
-    }
-
-    let styles;
-
-    new_fields.forEach(
-      (field) =>
-        (styles += `document.body.style.setProperty("${
-          field.name
-        }", properties.${field.name.substr(2).replaceAll("-", "_")});\n`)
-    );
-
-    console.log(styles);
   });
+  row_number++;
+})
+.on("error", function (error) {
+  console.log(error.message);
+})
+.on("end", function () {
+  // 👇 log the result array
+  let styles = '';
+  new_fields.forEach(field => {
+    styles += 
+    `target.style.setProperty("${field.property_name}", properties.${field.property_name.replaceAll("-", "_").slice(2)});\n`;
+  })
+  console.log(styles);
+  const new_fields_to_print = new_fields.map(field => {
+    return {
+      ...field,
+      property_name: field.property_name.replaceAll("-", "_").slice(2)
+    }
+  })
+
+  console.log(new_fields_to_print);
+  
+});
+
